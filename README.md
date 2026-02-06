@@ -28,121 +28,121 @@ project-root/
 │   ├── modules/                          # Feature-based modules
 │   │   │
 │   │   ├── auth/                         # Authentication module
-│   │   │   ├── auth.controller.js        # Login, register, logout controllers
-│   │   │   ├── auth.service.js           # Business logic for auth
-│   │   │   ├── auth.routes.js            # Auth routes definition
-│   │   │   ├── auth.validation.js        # Request validation schemas
-│   │   │   └── auth.model.js             # User model/schema
+│   │   │   ├── controller.js        # Login, register, logout controllers
+│   │   │   ├── service.js           # Business logic for auth
+│   │   │   ├── routes.js            # Auth routes definition
+│   │   │   ├── validation.js        # Request validation schemas
+│   │   │   └── model.js             # User model/schema
 │   │   │
 │   │   ├── user/                         # User management module
-│   │   │   ├── user.controller.js        # CRUD operations for users
-│   │   │   ├── user.service.js           # User business logic
-│   │   │   ├── user.routes.js            # User routes
-│   │   │   ├── user.validation.js        # User validation schemas
-│   │   │   └── user.model.js             # User database model
+│   │   │   ├── controller.js        # CRUD operations for users
+│   │   │   ├── service.js           # User business logic
+│   │   │   ├── routes.js            # User routes
+│   │   │   ├── validation.js        # User validation schemas
+│   │   │   └── model.js             # User database model
 │   │   │
 │   │   ├── product/                      # E-commerce product module
-│   │   │   ├── product.controller.js     # Product CRUD controllers
-│   │   │   ├── product.service.js        # Product business logic
-│   │   │   ├── product.routes.js         # Product routes
-│   │   │   ├── product.validation.js     # Product validation
-│   │   │   └── product.model.js          # Product schema
+│   │   │   ├── controller.js     # Product CRUD controllers
+│   │   │   ├── service.js        # Product business logic
+│   │   │   ├── routes.js         # Product routes
+│   │   │   ├── validation.js     # Product validation
+│   │   │   └── model.js          # Product schema
 │   │   │
 │   │   ├── order/                        # E-commerce order module
-│   │   │   ├── order.controller.js       # Order management controllers
-│   │   │   ├── order.service.js          # Order processing logic
-│   │   │   ├── order.routes.js           # Order routes
-│   │   │   ├── order.validation.js       # Order validation
-│   │   │   └── order.model.js            # Order schema
+│   │   │   ├── controller.js       # Order management controllers
+│   │   │   ├── service.js          # Order processing logic
+│   │   │   ├── routes.js           # Order routes
+│   │   │   ├── validation.js       # Order validation
+│   │   │   └── model.js            # Order schema
 │   │   │
 │   │   ├── cart/                         # Shopping cart module
-│   │   │   ├── cart.controller.js        # Cart operations
-│   │   │   ├── cart.service.js           # Cart logic
-│   │   │   ├── cart.routes.js            # Cart routes
-│   │   │   ├── cart.validation.js        # Cart validation
-│   │   │   └── cart.model.js             # Cart schema
+│   │   │   ├── controller.js        # Cart operations
+│   │   │   ├── service.js           # Cart logic
+│   │   │   ├── routes.js            # Cart routes
+│   │   │   ├── validation.js        # Cart validation
+│   │   │   └── model.js             # Cart schema
 │   │   │
 │   │   ├── payment/                      # Payment processing module
-│   │   │   ├── payment.controller.js     # Payment initiation & callback handling
-│   │   │   ├── payment.service.js        # Payment processing logic
-│   │   │   ├── payment.routes.js         # Payment routes
-│   │   │   ├── payment.validation.js     # Payment validation
-│   │   │   ├── payment.model.js          # Payment transaction schema
+│   │   │   ├── controller.js     # Payment initiation & callback handling
+│   │   │   ├── service.js        # Payment processing logic
+│   │   │   ├── routes.js         # Payment routes
+│   │   │   ├── validation.js     # Payment validation
+│   │   │   ├── model.js          # Payment transaction schema
 │   │   │   │
 │   │   │   └── gateways/                 # Different payment gateway integrations
-│   │   │       ├── stripe.gateway.js     # Stripe integration
-│   │   │       ├── paypal.gateway.js     # PayPal integration
-│   │   │       ├── razorpay.gateway.js   # Razorpay integration
+│   │   │       ├── stripe.js     # Stripe integration
+│   │   │       ├── paypal.js     # PayPal integration
+│   │   │       ├── razorpay.js   # Razorpay integration
 │   │   │       └── gateway.interface.js  # Common interface for all gateways
 │   │   │
 │   │   ├── cms/                          # Content Management System module
 │   │   │   ├── page/                     # CMS Pages
-│   │   │   │   ├── page.controller.js    # Page CRUD
-│   │   │   │   ├── page.service.js       # Page logic
-│   │   │   │   ├── page.routes.js        # Page routes
-│   │   │   │   ├── page.validation.js    # Page validation
-│   │   │   │   └── page.model.js         # Page schema
+│   │   │   │   ├── controller.js    # Page CRUD
+│   │   │   │   ├── service.js       # Page logic
+│   │   │   │   ├── routes.js        # Page routes
+│   │   │   │   ├── validation.js    # Page validation
+│   │   │   │   └── model.js         # Page schema
 │   │   │   │
 │   │   │   ├── blog/                     # Blog/Articles
-│   │   │   │   ├── blog.controller.js    # Blog CRUD
-│   │   │   │   ├── blog.service.js       # Blog logic
-│   │   │   │   ├── blog.routes.js        # Blog routes
-│   │   │   │   ├── blog.validation.js    # Blog validation
-│   │   │   │   └── blog.model.js         # Blog schema
+│   │   │   │   ├── controller.js    # Blog CRUD
+│   │   │   │   ├── service.js       # Blog logic
+│   │   │   │   ├── routes.js        # Blog routes
+│   │   │   │   ├── validation.js    # Blog validation
+│   │   │   │   └── model.js         # Blog schema
 │   │   │   │
 │   │   │   └── media/                    # Media library
-│   │   │       ├── media.controller.js   # Media upload/management
-│   │   │       ├── media.service.js      # Media processing logic
-│   │   │       ├── media.routes.js       # Media routes
-│   │   │       ├── media.validation.js   # Media validation
-│   │   │       └── media.model.js        # Media schema
+│   │   │       ├── controller.js   # Media upload/management
+│   │   │       ├── service.js      # Media processing logic
+│   │   │       ├── routes.js       # Media routes
+│   │   │       ├── validation.js   # Media validation
+│   │   │       └── model.js        # Media schema
 │   │   │
 │   │   ├── crm/                          # Customer Relationship Management
 │   │   │   ├── customer/                 # Customer management
-│   │   │   │   ├── customer.controller.js
-│   │   │   │   ├── customer.service.js
-│   │   │   │   ├── customer.routes.js
-│   │   │   │   ├── customer.validation.js
-│   │   │   │   └── customer.model.js
+│   │   │   │   ├── controller.js
+│   │   │   │   ├── service.js
+│   │   │   │   ├── routes.js
+│   │   │   │   ├── validation.js
+│   │   │   │   └── model.js
 │   │   │   │
 │   │   │   ├── lead/                     # Lead management
-│   │   │   │   ├── lead.controller.js
-│   │   │   │   ├── lead.service.js
-│   │   │   │   ├── lead.routes.js
-│   │   │   │   ├── lead.validation.js
-│   │   │   │   └── lead.model.js
+│   │   │   │   ├── controller.js
+│   │   │   │   ├── service.js
+│   │   │   │   ├── routes.js
+│   │   │   │   ├── validation.js
+│   │   │   │   └── model.js
 │   │   │   │
 │   │   │   └── ticket/                   # Support tickets
-│   │   │       ├── ticket.controller.js
-│   │   │       ├── ticket.service.js
-│   │   │       ├── ticket.routes.js
-│   │   │       ├── ticket.validation.js
-│   │   │       └── ticket.model.js
+│   │   │       ├── controller.js
+│   │   │       ├── service.js
+│   │   │       ├── routes.js
+│   │   │       ├── validation.js
+│   │   │       └── model.js
 │   │   │
 │   │   ├── dashboard/                    # Dashboard & Analytics module
-│   │   │   ├── dashboard.controller.js   # Dashboard data aggregation
-│   │   │   ├── dashboard.service.js      # Analytics and reporting logic
-│   │   │   ├── dashboard.routes.js       # Dashboard routes
+│   │   │   ├── controller.js   # Dashboard data aggregation
+│   │   │   ├── service.js      # Analytics and reporting logic
+│   │   │   ├── routes.js       # Dashboard routes
 │   │   │   └── widgets/                  # Reusable dashboard widgets
-│   │   │       ├── sales.widget.js       # Sales statistics
-│   │   │       ├── user.widget.js        # User statistics
-│   │   │       └── order.widget.js       # Order statistics
+│   │   │       ├── sales.js       # Sales statistics
+│   │   │       ├── user.js        # User statistics
+│   │   │       └── order.js       # Order statistics
 │   │   │
 │   │   ├── notification/                 # Notification module
-│   │   │   ├── notification.controller.js
-│   │   │   ├── notification.service.js
-│   │   │   ├── notification.routes.js
-│   │   │   ├── notification.model.js
+│   │   │   ├── controller.js
+│   │   │   ├── service.js
+│   │   │   ├── routes.js
+│   │   │   ├── model.js
 │   │   │   └── channels/                 # Different notification channels
-│   │   │       ├── email.channel.js      # Email notifications
-│   │   │       ├── sms.channel.js        # SMS notifications
-│   │   │       └── push.channel.js       # Push notifications
+│   │   │       ├── email.js      # Email notifications
+│   │   │       ├── sms.js        # SMS notifications
+│   │   │       └── push.js       # Push notifications
 │   │   │
 │   │   └── upload/                       # File upload module (Cloudinary)
-│   │       ├── upload.controller.js      # File upload endpoints
-│   │       ├── upload.service.js         # Upload processing logic
-│   │       ├── upload.routes.js          # Upload routes
-│   │       └── upload.validation.js      # File validation
+│   │       ├── controller.js      # File upload endpoints
+│   │       ├── service.js         # Upload processing logic
+│   │       ├── routes.js          # Upload routes
+│   │       └── validation.js      # File validation
 │   │
 │   ├── middlewares/                      # Centralized middleware
 │   │   ├── auth.middleware.js            # JWT authentication middleware
@@ -175,6 +175,8 @@ project-root/
 │   │
 │   ├── database/                         # Database related files
 │   │   ├── connection.js                 # Database connection setup
+|   |   ├── mongodb.connection.js         # Mongodb Database connection setup
+|   |   ├── sql.connection.js             # SQL Database connection setup
 │   │   ├── migrations/                   # Database migrations
 │   │   │   └── .gitkeep
 │   │   └── seeders/                      # Database seeders
