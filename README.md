@@ -485,3 +485,271 @@ npm run dev
 
 Pull requests are welcome.
 Please follow the existing architecture and naming conventions.
+
+
+
+# File Descriptions & Purpose
+
+## Root Files
+
+### .env.example
+Template for environment variables with placeholder values. Copy to .env for local development.
+
+### package.json
+Node.js dependencies, scripts for dev/production, and project metadata.
+
+### server.js
+Application entry point. Initializes database, starts Express server, handles graceful shutdown.
+
+---
+
+## Config Directory
+
+### config/index.js
+Loads appropriate config based on NODE_ENV (development/production/test).
+
+### config/database.config.js
+MongoDB/PostgreSQL/MySQL connection strings, pool settings, retry logic.
+
+### config/cloudinary.config.js
+Cloudinary credentials (cloud_name, api_key, api_secret), upload presets, folder structure.
+
+### config/payment.config.js
+Stores all payment gateway credentials (Stripe, PayPal, Razorpay), webhook secrets, currency settings.
+
+### config/email.config.js
+SMTP settings, email templates path, sender details.
+
+### config/redis.config.js
+Redis connection, TTL defaults, key prefixes.
+
+---
+
+## Modules (Feature-Based Architecture)
+
+### modules/auth/*
+- **controller**: Handles register, login, logout, refresh token, forgot password
+- **service**: Password hashing, token generation, user verification logic
+- **routes**: POST /register, /login, /logout, /refresh
+- **validation**: Email format, password strength, required fields
+- **model**: User schema with password encryption
+
+### modules/payment/*
+- **controller**: Initiates payment, handles webhooks, verifies transactions
+- **service**: Processes payments through selected gateway, updates order status
+- **gateways/**: Each gateway file implements common interface (charge, refund, verify)
+
+### modules/cms/page/*
+- **controller**: CRUD for dynamic pages (About, Contact, Terms)
+- **service**: Slug generation, SEO metadata handling
+- **model**: Page schema with title, slug, content, meta fields
+
+### modules/crm/customer/*
+- **controller**: Customer CRUD, activity logs, notes
+- **service**: Customer segmentation, lifetime value calculation
+- **model**: Customer schema with contact info, purchase history
+
+### modules/dashboard/*
+- **controller**: Aggregates data from multiple modules
+- **widgets/**: Individual widget services (sales.widget.js returns sales metrics)
+
+### modules/upload/*
+- **controller**: Handles multipart/form-data uploads
+- **service**: Calls cloudinary.service.js, stores metadata in DB
+- **routes**: POST /upload (single/multiple files)
+
+---
+
+## Middlewares (Centralized)
+
+### middlewares/auth.middleware.js
+Verifies JWT token from header, attaches user to request object, handles unauthorized errors.
+
+### middlewares/error.middleware.js
+**GLOBAL ERROR HANDLER**: Catches all errors, formats response, logs stack trace, handles operational vs programmer errors.
+
+### middlewares/validation.middleware.js
+Validates request body/params/query against Joi/Yup schemas, returns 400 with field errors.
+
+### middlewares/upload.middleware.js
+Configures Multer for memory storage, file type validation, size limits before Cloudinary upload.
+
+### middlewares/rateLimiter.middleware.js
+Prevents abuse: limits requests per IP (e.g., 100 req/15min), uses Redis for distributed systems.
+
+### middlewares/permission.middleware.js
+Role-based access control (RBAC): checks user.role against required permissions.
+
+---
+
+## Utils (Helpers)
+
+### utils/logger.js
+Winston/Pino setup for logging to files/console with levels (error, warn, info, debug).
+
+### utils/response.js
+Standardized API responses:
+```js
+success(res, data, message, statusCode)
+error(res, message, statusCode, errors)
+```
+
+### utils/encryption.js
+Bcrypt for password hashing, AES for sensitive data encryption.
+
+### utils/token.js
+JWT sign/verify functions, refresh token generation.
+
+### utils/pagination.js
+Calculates skip/limit, formats paginated response with totalPages, currentPage.
+
+---
+
+## Services (Shared Business Logic)
+
+### services/cloudinary.service.js
+**CENTRALIZED CLOUDINARY**: Upload, delete, transform images, generate URLs, manage folders.
+```js
+uploadImage(buffer, folder, options)
+deleteImage(publicId)
+getOptimizedUrl(publicId, transformations)
+```
+
+### services/cache.service.js
+Redis wrapper: get, set, delete, invalidate patterns, cache-aside pattern.
+
+### services/queue.service.js
+Bull/BullMQ for background jobs: email sending, report generation, image processing.
+
+---
+
+## Database
+
+### database/connection.js
+Establishes DB connection, handles reconnection logic, exports connection instance.
+
+### database/seeders/*
+Populates DB with initial/test data for development.
+
+---
+
+## Routes
+
+### routes/index.js
+Aggregates all module routes:
+```js
+app.use('/api/auth', authRoutes)
+app.use('/api/products', productRoutes)
+app.use('/api/orders', orderRoutes)
+```
+
+---
+
+## Environment Variables (.env.example)
+
+```env
+# Server
+NODE_ENV=development
+PORT=5000
+API_URL=http://localhost:5000
+
+# Database
+DB_TYPE=mongodb
+DB_HOST=localhost
+DB_PORT=27017
+DB_NAME=myapp
+DB_USER=admin
+DB_PASSWORD=secret
+
+# JWT
+JWT_SECRET=your-secret-key
+JWT_EXPIRE=7d
+JWT_REFRESH_SECRET=refresh-secret
+JWT_REFRESH_EXPIRE=30d
+
+# Cloudinary
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
+
+# Payment - Stripe
+STRIPE_PUBLIC_KEY=pk_test_xxxxx
+STRIPE_SECRET_KEY=sk_test_xxxxx
+STRIPE_WEBHOOK_SECRET=whsec_xxxxx
+
+# Payment - PayPal
+PAYPAL_CLIENT_ID=xxxxx
+PAYPAL_CLIENT_SECRET=xxxxx
+PAYPAL_MODE=sandbox
+
+# Payment - Razorpay
+RAZORPAY_KEY_ID=rzp_test_xxxxx
+RAZORPAY_KEY_SECRET=xxxxx
+
+# Email
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-password
+EMAIL_FROM=noreply@yourapp.com
+
+# Redis
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=
+
+# Frontend URL (for CORS)
+FRONTEND_URL=http://localhost:3000
+```
+
+---
+
+## Key Architecture Patterns
+
+### 1. Module-Based Structure
+Each feature (auth, product, order) is self-contained with its own controller, service, routes, validation, and model.
+
+### 2. Centralized Error Handling
+All errors caught by `error.middleware.js`. Use `AppError` class to throw errors:
+```js
+throw new AppError('Product not found', 404)
+```
+
+### 3. Payment Gateway Abstraction
+All payment gateways implement common interface in `gateway.interface.js`:
+- `charge(amount, currency, metadata)`
+- `refund(transactionId, amount)`
+- `verifyWebhook(payload, signature)`
+
+### 4. Cloudinary Centralization
+Never call Cloudinary directly from controllers. Always use `cloudinary.service.js` for consistent folder structure, naming, and error handling.
+
+### 5. Environment-Based Config
+All configs loaded through `config/index.js` which selects appropriate file based on NODE_ENV.
+
+---
+
+## Usage Examples
+
+### Using Different Payment Gateways
+```js
+// In payment.service.js
+const gateway = PaymentGatewayFactory.create(gatewayName) // 'stripe' | 'paypal' | 'razorpay'
+const result = await gateway.charge(amount, currency, orderData)
+```
+
+### Uploading to Cloudinary
+```js
+// In upload.controller.js
+const cloudinaryService = require('@/services/cloudinary.service')
+const result = await cloudinaryService.uploadImage(file.buffer, 'products', {
+  transformation: { width: 800, height: 800, crop: 'fill' }
+})
+```
+
+### Standardized API Response
+```js
+// In product.controller.js
+const products = await productService.getAll()
+return response.success(res, products, 'Products fetched successfully')
+```
